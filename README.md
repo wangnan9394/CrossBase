@@ -2,7 +2,7 @@
 
 DATA ：2代
 ##How to obtain vcfs：
-### One step:
+## One step:
 make a list.txt including NAME (NAME_1_clean.fq.gz,NAME_2_clean.fq.gz),one line one NAME.
 YOU HAVE TO MAKE A CORRECT PATH
 ```shell
@@ -18,7 +18,7 @@ samtools index ~/PATH/${line}.sort.removedup.bam
 echo "** ${line} sorted raw bam file done **"
 done
 ```
-### Two step(IN GPU/CPU)
+## Two step(IN GPU/CPU)
 container：
 docker pull google/deepvariant:rc1.0.0-gpu(GPU)
 docker pull google/deepvariant:rc1.0.0(CPU)
