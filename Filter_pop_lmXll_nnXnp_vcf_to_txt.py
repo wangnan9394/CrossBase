@@ -7,7 +7,7 @@ from scipy import stats
 # Author: NAN WANG, wangnan9349@163.com
 
 parser = argparse.ArgumentParser(description = '该脚本用于过滤lmXll和nnXnp标记的vcf文件和偏分离标记，输入vcf文件，和过滤参数，需要载入PyVCF和argparse包，使用pip进行安装,输出过滤后的vcf文件和可以进行图谱构建的txt文档', add_help = False, \
-    usage = '\npython filter_pop_vcf_to_txt.py -i [input.vcf] -f [father_ID] -m [mother_ID] <optinal: -DP:覆盖深度 -GQ:质量值 -freq:频率 -p:p值 >')
+    usage = '\nFilter_pop_lmXll_nnXnp_vcf_to_txt.py -i [input.vcf] -f [father_ID] -m [mother_ID] <optinal: -DP:覆盖深度 -GQ:质量值 -freq:频率 -p:p值 >')
 required = parser.add_argument_group()
 optional = parser.add_argument_group()
 required.add_argument('-i', '--input', metavar = '[input.vcf]', help = '输入 vcf 文件', required = True)
