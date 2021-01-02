@@ -18,7 +18,34 @@ samtools index ~/PATH/${line}.sort.removedup.bam
 echo "** ${line} sorted raw bam file done **"
 done
 ```
-### Two step(IN GPU)
+### Two step(IN GPU/CPU)
+container：
+docker pull google/deepvariant:rc1.0.0-gpu(GPU)
+docker pull google/deepvariant:rc1.0.0(CPU)
+### generate the vcfs
+```
+docker run --gpus all -v $INPUT:/input -v $OUTPUT:/output google/deepvariant:rc1.0.0-gpu /opt/deepvariant/bin/run_deepvariant --model_type=WGS --ref=$GENOME --reads=$BAM --output_vcf=$NAME.vcf.gz --output_gvcf=$NAME.g.vcf.gz --num_shards=24
+```
+### merge vcfs in glnexus
+```
+docker run \
+   -v "$input":"/data" \
+   quay.io/mlin/glnexus:v1.2.6 \
+   /usr/local/bin/glnexus_cli \
+   --config DeepVariantWGS \
+ ~all .g.vcf.gz files \
+ | bcftools view - | bgzip -c > ${output}/deepvariant.cohort.vcf.gz
+```
+##
+# Three step
+obtain different markers
+*like:aaXbb,nnXnp,lmXll,hkXhk*
+
+
+
+
+
+#### CONFIGURE A DOCKER-GPU
 IF YOU NEED TO CONFIGURE A GPU,in root!!!
 
 ### check the system
