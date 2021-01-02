@@ -20,20 +20,21 @@ done
 ```
 ### Two step(IN GPU)
 IF YOU NEED TO CONFIGURE A GPU,in root!!!
-```
+
 ### check the system
+```
 cat /etc/os-release 
 ```
-```
 ### pre-DNS
+```
 cat /etc/resolv.conf
 ```
-```
 ### make a rpm
+```
 rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
 ```
-```
 ### Shield system tape drive
+```
 vi /lib/modprobe.d/dist-blacklist.conf
 ### delete
 #blacklist nvidiafb
@@ -41,4 +42,61 @@ vi /lib/modprobe.d/dist-blacklist.conf
 blacklist nouveau  
 options nouveau modeset=0 
 ```
-
+### check
+```
+cat /lib/modprobe.d/dist-blacklist.conf
+```
+### rebuild initramfs image
+```
+mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak  
+dracut /boot/initramfs-$(uname -r).img $(uname -r) 
+```
+### restart system
+```
+reboot
+```
+### check 
+```
+lsmod | grep nouveau 
+```
+### install gpu-driver
+```
+yum -y install kmod-nvidia
+```
+### restart system
+```
+reboot
+```
+### check gpu-driver
+```
+nvidia-smi 
+```
+### install docker
+```
+curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
+```
+### install NVIDIA Container Toolkit
+```
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) 
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.repo | sudo tee /etc/yum.repos.d/nvidia-docker.repo 
+yum install -y nvidia-container-toolkit 
+systemctl restart docker
+```
+####Test nvidia-smi with the latest official CUDA image
+```
+docker run --gpus all nvidia/cuda:10.0-base nvidia-smi
+```
+#Start a GPU enabled container on two GPUs
+```
+docker run --gpus 2 nvidia/cuda:10.0-base nvidia-smi
+```
+#Starting a GPU enabled container on specific GPUs
+```
+docker run --gpus '"device=1,2"' nvidia/cuda:10.0-base nvidia-smi
+docker run --gpus '"device=UUID-ABCDEF,1"' nvidia/cuda:10.0-base nvidia-smi
+```
+#Specifying a capability (graphics, compute, ...) for my container
+#Note this is rarely if ever used this way
+```
+docker run --gpus all,capabilities=utility nvidia/cuda:10.0-base nvidia-smi
+```
