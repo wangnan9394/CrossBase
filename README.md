@@ -1,8 +1,9 @@
 # Populations_Linkage_groups_by_WGS
 
-DATA ：2代
+Need: population sequencing using WGS(>10X)
+
 ##How to obtain vcfs：
-## One step:
+## One step, generate bam files for Deepvariant(a program calling variants from google)
 make a list.txt including NAME (NAME_1_clean.fq.gz,NAME_2_clean.fq.gz),one line one NAME.
 YOU HAVE TO MAKE A CORRECT PATH
 ```shell
@@ -18,7 +19,7 @@ samtools index ~/PATH/${line}.sort.removedup.bam
 echo "** ${line} sorted raw bam file done **"
 done
 ```
-## Two step(IN GPU/CPU)
+## Two step(IN GPU/CPU), generate vcf files from Deepvariant
 container：
 docker pull google/deepvariant:rc1.0.0-gpu(GPU)
 docker pull google/deepvariant:rc1.0.0(CPU)
@@ -36,7 +37,7 @@ docker run \
  ~all .g.vcf.gz files \
  | bcftools view - | bgzip -c > ${output}/deepvariant.cohort.vcf.gz
 ```
-## Three step
+## Three step, handle with the markers
 obtain different markers
 *like:aaXbb,nnXnp,lmXll,hkXhk*
 ```
@@ -53,10 +54,10 @@ input._nnXnp.vcf
 obatin Non-segregation markers
 #### obatin lmXlm nnXnp Non-segregation markers
 ```
-Filter_pop_lmXll_nnXnp_vcf_to_txt.py -i [input.vcf] -f [father_ID] -m [mother_ID] <optinal: -DP:vcf_depth -GQ:vcf_quality -freq:completeness -p:p value >'
+Filter_pop_lmXll_nnXnp_vcf_to_txt.py -i [input.vcf] -f [father_ID] -m [mother_ID] <optinal: -DP:vcf_depth -GQ:vcf_quality -freq:completeness -p:p value >
 ```
 
-
+MAY NEED MORE TIME TO FINISH THIS!
 
 
 
