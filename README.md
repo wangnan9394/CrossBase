@@ -57,7 +57,7 @@ obatin Non-segregation markers
 Filter_pop_lmXll_nnXnp_vcf_to_txt.py -i [input.vcf] -f [father_ID] -m [mother_ID] <optinal: -DP:vcf_depth -GQ:vcf_quality -freq:completeness -p:p value >
 ```
 
-MAY NEED MORE TIME TO FINISH THIS!
+# WAITING!!
 
 
 
