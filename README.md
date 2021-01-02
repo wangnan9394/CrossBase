@@ -22,7 +22,7 @@ done
 container：
 docker pull google/deepvariant:rc1.0.0-gpu(GPU)
 docker pull google/deepvariant:rc1.0.0(CPU)
-### generate the vcfs
+### generate the vcfs,IF necessary filter with "PASS"
 ```
 docker run --gpus all -v $INPUT:/input -v $OUTPUT:/output google/deepvariant:rc1.0.0-gpu /opt/deepvariant/bin/run_deepvariant --model_type=WGS --ref=$GENOME --reads=$BAM --output_vcf=$NAME.vcf.gz --output_gvcf=$NAME.g.vcf.gz --num_shards=24
 ```
@@ -36,10 +36,25 @@ docker run \
  ~all .g.vcf.gz files \
  | bcftools view - | bgzip -c > ${output}/deepvariant.cohort.vcf.gz
 ```
-##
-# Three step
+## Three step
 obtain different markers
 *like:aaXbb,nnXnp,lmXll,hkXhk*
+```
+python Filter_marker_2_four_type.py -i [input.vcf] -f [pop_father_ID] -m [pop_mother_ID]
+```
+outputs
+```
+input._aaXbb.vcf
+input._hkXhk.vcf
+input._lmXll.vcf
+input._nnXnp.vcf
+```
+## Four step
+obatin Non-segregation markers
+#### obatin lmXlm nnXnp Non-segregation markers
+```
+
+```
 
 
 
